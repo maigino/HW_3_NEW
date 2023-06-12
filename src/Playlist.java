@@ -9,7 +9,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
     private List<Song> songs;
     private ScanningOrder scanningOrder;
     private String filterArtist;
-    private String filterGenre;
+    private Enum filterGenre;
     private int filterDuration;
     private int size;
     public Playlist(){
@@ -19,6 +19,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         this.filterGenre = null;
         this.filterDuration = -1;
         this.size = 0;
+
     }
 
     public void addSong(Song song)  {
@@ -48,19 +49,41 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
     }
     public void filterArtist(String artist) {
         this.filterArtist = artist;
+        Iterator<Song> iterator = songs.iterator();
+        while (iterator.hasNext()) {
+            Song current = iterator.next();
+            if (!artist.equals(current.getArtist())) {
+                if(artist!=null){
+                iterator.remove();
+                size--;
+                }
+            }
+        }
     }
-
     @Override
     public void filterGenre(Enum genre) {
-
-    }
-
-    public void filterGenre(String genre) {
         this.filterGenre = genre;
-
+        Iterator<Song> iterator = songs.iterator();
+        while (iterator.hasNext()) {
+            Song current = iterator.next();
+            if (!genre.equals(current.getGenre())) {
+                if(genre!=null){
+                iterator.remove();
+                size--;
+            }
+            }
+        }
     }
     public void filterDuration(int duration){
         this.filterDuration = duration;
+        Iterator<Song> iterator = songs.iterator();
+         while (iterator.hasNext()){
+            Song current = iterator.next();
+            if(duration != current.getDuration()){
+                iterator.remove();
+                size--;
+            }       
+        }
     }
     @Override
     public Playlist clone(){
@@ -83,7 +106,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
             return null;
         }
     }
-    private List<Song> filterSongs(){
+   /* private List<Song> filterSongs(){
         List<Song> filteredSongs = new ArrayList<>();
         for(Song song: songs){
             if (filterArtist == null || song.getArtist().equals(filterArtist)) {
@@ -95,7 +118,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
             }
         }
         return filteredSongs;
-    }
+    }*/
     private void sortSongs(List<Song> songs) {
         switch (scanningOrder) {
             case NAME:
@@ -162,10 +185,10 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         return new PlaylistIterator();
     }
     private class PlaylistIterator implements Iterator<Song> {
-        private int currentIndex = 0;
+        private int currentIndex = 0;        
         @Override
         public boolean hasNext() {
-            return currentIndex < size - 1;
+            return currentIndex < size-1 ;
         }
         @Override
         public Song next() {
