@@ -1,4 +1,4 @@
-public class Song {
+public class Song implements Cloneable{
     private final String name;
     private final String artist;
     private Genre genre;
@@ -33,6 +33,30 @@ public class Song {
 
     public void setDuration(int duration) {
         this.duration = duration;
+    }
+    @Override
+    public boolean equals(Object other){ 
+        if (!(other instanceof Song)) {
+            return false;
+        }
+        Song otherSong = (Song) other;
+        if (otherSong.name.equals(this.name) && otherSong.artist.equals(this.artist)) {
+            return true;
+        }
+        return false;
+    }
+    @Override
+     public int hashCode() {
+        return Integer.hashCode(duration);
+    }
+    @Override
+    public Song clone() {
+        try {
+            Song clonedSong = (Song) super.clone();           
+            return clonedSong;
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
 
     public enum Genre {

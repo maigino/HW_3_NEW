@@ -9,7 +9,7 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
 
     public ArrayStack(int capacity) {
         if (capacity < 0) {
-            throw new StackException.NegativeCapacityException();
+            throw new NegativeCapacityException();
         }
         this.capacity = capacity;
         this.array = new Object[capacity];
@@ -19,7 +19,7 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
     @Override
     public void push(E element){
         if (isFull()) {
-            throw new StackException.StackOverflowException();
+            throw new StackOverflowException();
         }
         top++;
         array[top] = element;
@@ -28,7 +28,7 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
     @Override
     public E pop(){
         if (isEmpty()) {
-            throw new StackException.EmptyStackException();
+            throw new EmptyStackException();
         }
         @SuppressWarnings("unchecked")
         E element = (E) array[top];
@@ -40,7 +40,7 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
     @Override
     public E peek() {
         if (isEmpty()) {
-            throw new StackException.EmptyStackException();
+            throw new EmptyStackException();
         }
         @SuppressWarnings("unchecked")
         E element = (E) array[top];
@@ -68,7 +68,6 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
             clonedStack.array = array.clone();
             
             for (int i = 0; i <= top; i++) {
-                    
                     try {
                     Method cloneMethod = array[i].getClass().getDeclaredMethod("clone");
                     cloneMethod.setAccessible(true);
@@ -98,7 +97,7 @@ public class ArrayStack<E extends StackException & Cloneable> implements Stack<E
         @Override
         public E next() {
             if (!hasNext()) {
-                throw new StackException.EmptyStackException();
+                throw new EmptyStackException();
             }
             currentIndex--;
             return (E) array[currentIndex];
