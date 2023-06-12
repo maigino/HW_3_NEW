@@ -1,3 +1,5 @@
+package src;
+
 import java.util.Objects;
 
 public class Song implements Cloneable{
@@ -5,7 +7,6 @@ public class Song implements Cloneable{
     private final String artist;
     private Genre genre;
     private int duration;
-
     public Song(String name, String artist, Genre genre, int duration) {
         this.name = name;
         this.artist = artist;
@@ -42,6 +43,7 @@ public class Song implements Cloneable{
             return false;
         }
         Song otherSong = (Song) other;
+       
         return this.name.equals(otherSong.name) && this.artist.equals(otherSong.artist);
     }
 

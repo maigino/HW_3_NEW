@@ -1,3 +1,5 @@
+package src;
+
 public interface Stack<E extends Cloneable> extends Iterable<E>, Cloneable {
     void push(E element);
     E pop();

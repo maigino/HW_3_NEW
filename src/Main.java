@@ -1,3 +1,5 @@
+package src;
+
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
@@ -165,7 +167,6 @@ public class Main {
         playlist1.addSong(song2);
 
         System.out.println("playlist1: " + playlist1);
-
         Playlist playlist2 = playlist1.clone();
         System.out.println("playlist1: " + playlist1);
         System.out.println("playlist2: " + playlist2);

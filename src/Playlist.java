@@ -1,3 +1,5 @@
+package src;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -19,7 +21,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         this.size = 0;
     }
 
-    public void addSong(Song song) {
+    public void addSong(Song song)  {
         for (Song existingSong : songs) {
             if (existingSong.equals(song)) {
                 throw new SongAlreadyExistsException();
@@ -28,7 +30,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         size++;
         songs.add(song);
     }
-    public boolean removeSong (Song song){
+    public boolean removeSong (Song song) {
         int index=0;
         for (Song existingSong : songs){
             if(existingSong.equals(song)){
@@ -61,16 +63,23 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         this.filterDuration = duration;
     }
     @Override
-    public Playlist clone() {
+    public Playlist clone(){
+        int index = 0;
         try {
             Playlist clonedPlaylist = (Playlist) super.clone();
-            Song clonedSong;
-            for(Song originalSong : songs){
-                clonedSong = originalSong.clone();
-                clonedPlaylist.addSong(clonedSong);
-            }
+            for (Song originalSong : songs) {
+                try{
+                    System.out.println(index++);
+                    clonedPlaylist.addSong(originalSong.clone());
+                }
+                catch(SongAlreadyExistsException e){
+                  System.out.println("caught on"+originalSong.toString());  
+                }
+                }
             return clonedPlaylist;
-        } catch (CloneNotSupportedException e) {
+            }
+        catch (CloneNotSupportedException e) {
+            // This block should not be reached if Playlist implements Cloneable
             return null;
         }
     }
@@ -153,10 +162,10 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
         return new PlaylistIterator();
     }
     private class PlaylistIterator implements Iterator<Song> {
-        private int currentIndex = -1;
+        private int currentIndex = 0;
         @Override
         public boolean hasNext() {
-            return currentIndex < size-1;
+            return currentIndex < size - 1;
         }
         @Override
         public Song next() {
@@ -164,7 +173,7 @@ public class Playlist implements OrderSongIterable, FilteredSongIterable, Clonea
                 throw new EmptyStackException();
             }
             currentIndex++;
-            return songs.get(currentIndex);
+            return songs.get(currentIndex-1);
         }
     }
 }
